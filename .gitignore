@@ -1,0 +1,16 @@
+program/utils/chrlauncher-win64-stable-codecs-sync/*
+test.py
+slide_test.py
+
+program/synopse/*
+
+*.html
+
+*.xlsx
+*.xlsb
+*.log
+*.pdf
+*.pyc
+*.png
+*.docx
+*.zip
