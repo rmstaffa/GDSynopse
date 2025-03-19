@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/white.css">
+    <link rel="stylesheet" href="plugin/print/print.css" media="print">
+    <style>
+        @media print {
+            .reveal table, 
+            .reveal table th, 
+            .reveal table td {
+                background-color: inherit !important; /* Preserve background colors */
+                -webkit-print-color-adjust: exact; /* Force accurate colors in WebKit browsers */
+                color-adjust: exact; /* Modern color adjustment for printing */
+            }
+
+            .caption {
+                background-color: #acd8f4ff !important; /* Ensure the caption background is retained */
+                color: #009edfff !important; /* Ensure text color is retained */
+                -webkit-print-color-adjust: exact; /* For WebKit-based browsers */
+                color-adjust: exact; /* For modern browsers */
+            }
+        }
+        /* Use flexbox to arrange chart and tables side by side */
+        .flex-container {
+            display: flex;
+            flex-direction: row; /* Align chart and tables side by side */
+            align-items: center; /* Center vertically */
+            justify-content: space-between;
+            height: 100%; /* Ensure it takes up the full slide height */
+            padding: 0; /* Remove extra padding */
+        }
+
+        /* Chart container (taking 50% of the slide) */
+        .chart-container {
+            width: 50%; /* Fixed 50% width */
+            height: 100%; /* Full height of slide */
+            margin-right: 10px; /* Small margin between chart and tables */
+        }
+
+        /* Table container (taking 50% of the slide for both rows of tables) */
+        .table-container {
+            display: flex;
+            flex-direction: column; /* Stack rows of tables */
+            width: 50%; /* 50% width for tables combined */
+            height: 100%; /* Full height of the slide */
+        }
+
+        /* Row container for each row of tables (each row contains 2 tables) */
+        .row-container {
+            display: flex;
+            flex-direction: row; /* Place two tables side by side in each row */
+            justify-content: space-between;
+            width: 100%; /* Take full width inside table container */
+            margin-bottom: 10px; /* Space between rows */
+        }
+        .row-container.full-width .table-wrapper {
+            width: 100%; /* Full width for the first table */
+        }
+
+        /* Table wrapper for each individual table (50% width each in row) */
+        .table-wrapper {
+            width: 98%; /* Each table takes roughly 50% of the row width */
+            overflow-x: auto; /* Enable horizontal scrolling if needed */
+        }
+
+        /* Table styles */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 20px;
+            font-size: 10px;
+            border: none;  /* Remove table border */
+            page-break-inside: avoid;
+            table-layout: fixed;  /* Ensures table fits within container */
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: none;  /* Remove cell borders */
+            white-space: nowrap;  /* Prevent breaking in headers */
+            word-wrap: break-word;  /* Ensure content wraps within cells */
+        }
+        th {
+            font-size: 10px;  /* Adjust font size if necessary */
+        }
+        td {
+            font-size: 10px;  /* Adjust font size if necessary */
+        }
+        /* Caption styling */
+        .caption {
+            background-color: #acd8f4ff !important; /* GD blue background */
+            color: #009edfff; /* GD blue light text */
+            padding: 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+            display: block;
+            width: 100%;  /* Ensure it fits the table width */
+            box-sizing: border-box;
+        }
+        .table-style-2 {
+            border-collapse: collapse; /* Ensure no gaps between table cells */
+            width: 100%; /* Full width of the table */
+            border-top: 1px solid #000; /* Add only a single top border */
+        }
+
+        .table-style-2 th, .table-style-2 td {
+            border: none !important;
+            padding: 2px !important;
+            text-align: left !important;
+            white-space: nowrap; /* Prevent breaking in headers */
+            word-wrap: break-word; /* Ensure content wraps within cells */
+            font-size: 12px; /* Set font size */
+        }
+
+        .table-style-2 thead th {
+            border-bottom: 2px solid #000 !important; /* Add a solid line under the header */
+            background-color: #f2f2f2 !important; /* Light background for the header */
+        }
+
+        .table-style-2 tbody tr:nth-child(odd) {
+            background-color: #f9f9f9 !important; /* Light gray for odd rows */
+        }
+
+        .table-style-2 tbody tr:nth-child(even) {
+            background-color: #ffffff !important; /* White for even rows */
+        }
+
+        .table-style-2 tbody tr:hover {
+            background-color: #e6f7ff !important; /* Highlight row on hover */
+        }
+        /* Fix slide margins to maximize space */
+        .reveal {
+            margin: 0 !important; /* Remove default margin */
+            padding: 0 !important; /* Remove default padding */
+        }
+
+        .slides {
+            padding: 0 !important; /* Remove padding inside the slide area */
+        }
+
+        section {
+            padding: 0 !important; /* Remove padding for individual sections */
+            margin: 0 !important; /* Remove margin for individual sections */
+        }
+
+        .reveal .slides > section {
+            max-width: 100% !important; /* Ensure content takes full width */
+            max-height: 100% !important; /* Ensure content takes full height */
+        }
+
+        /* Reduce default margin between sections */
+        .reveal .slides > section {
+            margin: 0 !important;
+        }
+        .special-header {
+        position: absolute;
+        padding: 10px 20px 10px 20px;
+        top: 30px;
+        left: 0px;
+        z-index: 500;
+        /* background-color: rgba(0,0,0,0.5); Uncomment if needed */
+    }
+
+    .special-body {
+        margin: auto;
+        position: absolute;
+        top: 50%;
+        left: 0%;
+        transform: translate(0%, -50%);
+    }
+    .reveal .footer {
+        position: absolute;
+        bottom: -3em;
+        left: 1em;
+        font-size: 0.5em;
+        }
+
+    .info-box {
+        margin-top: 20px; /* Space between the chart and the box */
+        padding: 10px; /* Internal padding for better readability */
+        background-color: #f9f9f9; /* Light gray background */
+        border-left: 4px solid #009edfff; /* A colored accent border */
+        color: #333; /* Standard dark text */
+        font-size: 16px; /* Slightly smaller font for the info box */
+        border-radius: 4px; /* Optional: Rounded corners */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        text-align: left; /* Ensure text is left-aligned */
+    }
+    .info-box strong {
+        color: #009edfff; /* Emphasize the "Information:" label */
+    }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+
+    <div class="slides">
+
+        {% for slide in slides_t1 %}
+        <section>
+            <!-- Slide Header -->
+            <div class="flex-container">
+                <!-- Chart -->
+                <div class="chart-container">
+                    <div class="info-box">
+                        <strong>{{slide.header}}</strong>
+                    </div>
+                    {{ slide.plot|safe }}
+                </div>
+    
+                <!-- Tables -->
+                <div class="table-container">
+                    <!-- First Row of Tables -->
+                    <div class="row-container">
+                        <div class="table-wrapper">
+                            <span class="caption">{{slide.title}}</span>
+                            <table class="table-style-2">
+                                {{ slide.table1|safe }}
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+    {% endfor %}
+
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
+<script>
+    Reveal.initialize(
+        {
+            disableLayout: false,
+            margin: 0.04,
+            width: 1500,
+            height: 700,
+        }
+    );
+</script>
+
+</body>
+</html>

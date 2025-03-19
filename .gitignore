@@ -4,7 +4,10 @@ slide_test.py
 
 program/synopse/*
 
+# Ignore by default
 *.html
+# allow tracking within specific foplder
+!program/templates/*.html
 
 *.xlsx
 *.xlsb

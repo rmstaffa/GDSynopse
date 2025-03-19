@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0; /* Add padding at the top */
+            line-height: 1.6;
+        }
+        .container {
+            width: 99%;
+            max-width: 98%;
+            margin: auto;
+            overflow: hidden;
+            padding: 0 10px; /* Reduce side padding */
+        }
+        .section {
+            margin-bottom: 40px;
+            page-break-inside: avoid;
+        }
+        .banner {
+            background: #acd8f4ff;  /* GD blue background */
+            color: #009edfff;  /* GD blue light text */
+            text-align: center;
+            padding: 10px 0;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            page-break-inside: avoid;
+            display: block; /* Ensure it's treated as a block element */
+            width: 100%; /* Ensure it takes the full width */
+        }
+        .gastgeber {
+            font-size: 1.4em;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            color: #00a799ff;  /* GD green */
+            font-weight: bold;
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+        .table-container {
+            display: flex;
+            justify-content: center;  /* Center the content */
+            page-break-inside: avoid;
+            overflow-x: auto;  /* Enable horizontal scrolling if needed */
+        }
+        .table-wrapper {
+            flex-grow: 1; /* Allow table wrapper to grow */
+            margin: 0 10px; /* Add some margin between tables */
+        }
+        .table-container-space-between {
+            display: flex;
+            justify-content: space-between;
+            page-break-inside: avoid;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 20px;
+            font-size: 10px;
+            border: none;  /* Remove table border */
+            page-break-inside: avoid;
+            table-layout: fixed;  /* Ensures table fits within container */
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: none;  /* Remove cell borders */
+            white-space: nowrap;  /* Prevent breaking in headers */
+            word-wrap: break-word;  /* Ensure content wraps within cells */
+        }
+        th {
+            font-size: 10px;  /* Adjust font size if necessary */
+        }
+        td {
+            font-size: 10px;  /* Adjust font size if necessary */
+        }
+        .header, .footer {
+            text-align: center;
+            padding: 10px;
+            page-break-inside: avoid;
+        }
+        .header {
+            background: #f4f4f4;
+        }
+        .footer {
+            background: #f4f4f4;
+        }
+        /* Table Style 1 */
+        .table-style-1 tbody tr:nth-of-type(odd) {
+            background-color: rgba(0,0,0,.05);
+            page-break-inside: avoid;
+        }
+        .table-style-1 tbody tr:nth-child(5n) {
+            border-bottom: 1px solid #000; /* Small line below every 5th row */
+            page-break-inside: avoid;
+        }
+        .table-style-1 tbody tr:nth-child(6n) {
+            border-bottom: 2px solid #000; /* Larger line below every 6th row */
+            page-break-inside: avoid;
+        }
+
+        /* Table Style 2 */
+        .table-style-2 tbody tr:nth-of-type(odd) {
+            background-color: rgba(0,0,0,.05);
+            page-break-inside: avoid;
+            font-size: 9;
+        }
+        .table-style-2 tbody tr:nth-child(4n+1) {
+            border-top: 2px solid #000; /* Horizontal border every 4 rows */
+            page-break-inside: avoid;
+            font-size: 9;
+        }
+        /* Table Style 3 */
+        .table-style-3 tbody tr:first-child {
+            border-top: 2px solid #000; /* Line above the first row */
+        }
+        .table-style-3 tbody tr:nth-child(n+{{ row_number }}) {
+            background-color: rgba(0,0,0,.05);
+            page-break-inside: avoid;
+            font-size: 9;
+        }
+        .caption {
+            background-color: #acd8f4ff; /* GD blue background */
+            color: #009edfff; /* GD blue light text */
+            padding: 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+            display: block;
+            width: 100%;  /* Ensure it fits the table width */
+            box-sizing: border-box;
+            page-break-inside: avoid;
+        }
+        .mittelfrist-layout {
+            display: flex;
+            justify-content: space-between;
+            gap: 2px; /* Adjust the gap value to set the margin between tables */
+        }
+
+        .mittelfrist-layout .table-wrapper {
+            flex-grow: 1;
+        }
+
+        .mittelfrist-layout .table-wrapper:first-child {
+            flex-basis: 60%;
+        }
+
+        .mittelfrist-layout .table-wrapper:last-child {
+            flex-basis: 40%;
+        }
+        .small-font {
+            font-size: 10px;
+        }
+        .synopse {
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+        /* Make sure content-wrapper is using flexbox */
+        .content-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+        }
+        .graph-container {
+            width: 50%;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>{% block header_title %}{{ title }}{% endblock %}</h1>
+        <h1 class="gastgeber">{% block gastgeber %}GD {{ forecast | safe }} - {{ gastgeberin | safe }}{% endblock %}</h1>
+    </div>
+
+    <div class="container">
+        {% block content %}
+        <!-- Specific content will be inserted here -->
+        {% endblock %}
+    </div>
+
+    <div class="footer">
+        <p>Report generated on {{ date }}</p>
+    </div>
+</body>
+</html>
+

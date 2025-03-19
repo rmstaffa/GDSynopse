@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Annahmen Tab{% endblock %}
+
+{% block content %}
+
+<!-- mittelfrist -->
+
+{% for section in mittelfrist %}
+<div class="section">
+    <div class="banner">{{ section[0] }}</div>
+    {{ section[1] | safe }}
+    
+    <div class="container">
+        <div class="table-container mittelfrist-layout">
+                <div>
+                    <div class="table-wrapper">
+                        <span class="caption">{{ section[3][0] }}</span>
+                        <div class="table-style-1">
+                        {{ section[2][0] | safe }}
+                    </div>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <span class="caption">&Delta;MFP</span>
+                    <div class="table-style-1">
+                    {{ section[2][1] | safe }}
+                </div>
+                </div>
+            </div>
+            
+            <div class="table-container mittelfrist-layout">
+                <div>
+                    <div class="table-wrapper">
+                        <span class="caption">{{ section[3][1] }}</span>
+                        <div class="table-style-1">
+                            {{ section[2][2] | safe }}
+                    </div>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <span class="caption">&#x2300;MFP</span>
+                    <div class="table-style-1">
+                        {{ section[2][3] | safe }}
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        {% endfor %}
+    </div>
+    
+
+{% endblock %}
+
+<!-- <div class="table-container">
+    <div>
+        <div class="table-wrapper">
+            <span class="caption">Verkettete Volumenangaben (ksb); Mrd. EUR</span>
+            <div class="table-style-2">
+                {{ section[2][0] | safe }}
+            </div>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <span class="caption">Q-Q laufende Rate</span>
+        <div class="table-style-2">
+            {{ section[2][1] | safe }}
+        </div>
+    </div>
+</div> -->

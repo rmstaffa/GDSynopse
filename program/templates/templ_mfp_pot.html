@@ -1,0 +1,36 @@
+{% extends "base_mfp_pot.html" %}
+
+{% block title %}Annahmen Tab{% endblock %}
+
+{% block content %}
+<!-- mfp_pot -->
+<div class="container">
+    {% for section in mfp_pot %}
+    <div class="section">
+        <div class="banner">{{ section[0].title }}</div>
+        <div class="content-wrapper">
+            <div class="graph-container">
+                {{ section[1] | safe }}
+            </div>
+            <div class="table-container">
+                <div class="table-wrapper">
+                    <span class="caption">{{section[0].title1}} ({{section[0].yaxis_title1}})</span>
+                    <div class="table-style-3">
+                        {{ section[2][0] | safe }}
+                    </div>
+                </div>
+                {% if section[0].title2 %}
+                    <div class="table-wrapper">
+                        <span class="caption">{{section[0].title2}} ({{section[0].yaxis_title2}})</span>
+                        <div class="table-style-3">
+                            {{ section[2][1] | safe }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
