@@ -142,3 +142,6 @@ except Exception as e:
 
 logger.success(f"PDF file created at: {output_path}")
 
+# store csv
+synopse.data_to_csv(csv_path=str(BASE_DIR)+f"/_reports_outputs/{folder}")
+logger.success("CSV file created")

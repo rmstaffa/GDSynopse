@@ -421,4 +421,28 @@ class SynopseData:
         
         return self
     
+    def data_to_csv(self, 
+                    csv_path):
+        
+        container_A = []
+        container_Q = []
+        
+        for inst in self.institutes:
+            
+            container_A.append(getattr(self,inst)["A"])
+            container_Q.append(getattr(self,inst)["Q"])
+            
+        df_A = pd.concat(container_A,axis=0,keys=self.institutes)
+        df_Q = pd.concat(container_Q,axis=0,keys=self.institutes)
+        
+        
+        rename = {
+            "level_0":"Institut",
+            "level_1":"Datum"
+        }
+        self.df_A = df_A.reset_index().rename(columns=rename)
+        self.df_Q = df_Q.reset_index().rename(columns=rename)
+        
+        self.df_A.to_csv(csv_path+"/synopse_data_A.csv",index=False)
+        self.df_Q.to_csv(csv_path+"/synopse_data_Q.csv",index=False)
 
