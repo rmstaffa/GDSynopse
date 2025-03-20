@@ -11,16 +11,16 @@ sys.path.insert(0, str(BASE_DIR))
 
 settings_allgemein = {
     "title":"Synopse der Gemeinschaftsdiagnose",
-    "fc_start":"2024-07", # erster monat des ersten Prognosequartals
+    "fc_start":"2025-01", # erster monat des ersten Prognosequartals
     "GD":"Frühjahr 2025", # aktuelle GD
     "GD(t-1)":"Herbst 2024", # vorherige GD
-    "Gastgeber:in":"Berlin", # gastgebendes Institut
+    "Gastgeber:in":"Essen", # gastgebendes Institut
     "tickformat":",.2f", # format for plots,
 }
 
 settings_synopse = {
-    "show_mean":False, # Durchschnitt anzeigen in Tabellen
-    "Prognose":True, # Prognose mit anzeigen (Excel mit Namen GD.xlsx)
+    "show_mean":True, # Durchschnitt anzeigen in Tabellen
+    "Prognose":False, # Prognose mit anzeigen (Excel mit Namen GD.xlsx)
     "prognose_style_line":dict(color="black",dash="dash", width=3), # style for the prognose line
     "prognose_style_marker":dict(color="white",pattern_shape="\\",line_color="black"), # style for the prognose marker
     # NOTE: adjust according to the institute names (excel file names)
@@ -35,12 +35,12 @@ settings_synopse = {
 }
 
 settings_vintages = {
-    "produce_vintages":True,
+    "produce_vintages":False,
     "colorscale":"viridis_r", # colorscale for the vintages
 }
 
 settings_mfp = {
-    "data_path_mittelfrist":str(BASE_DIR / "mfp") + "/MFP_Input.xlsx", # Pfad zur Mittelfristprognose Excel
+    "data_path_mittelfrist":str(BASE_DIR / "_data_inputs") + "/mfp/MFP_Input.xlsx", # Pfad zur Mittelfristprognose Excel
     "window_kf":slice("2023","2026"), # window to be displayed (if data available)
     "window_mf":slice("2016","2029"), # window to be displayed (if data available)
 }
@@ -60,7 +60,7 @@ if settings["produce_vintages"]:
     
     # overwrite colors if necessary
     pat = re.compile(r"([A-Za-z0-9 _]+)\.xlsx")
-    file_paths = glob.glob(str(BASE_DIR / "vintages") + "\*.xlsx")
+    file_paths = glob.glob(str(BASE_DIR / "_data_inputs/vintages") + "\*.xlsx")
     vintages = [pat.findall(f)[0] for f in file_paths]
     colors = pc.sample_colorscale(settings["colorscale"], [i / (len(vintages) - 1) for i in range(len(vintages))])
     

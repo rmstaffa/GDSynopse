@@ -94,7 +94,7 @@ def create_verwendung(komponente,synopse,settings):
         
         fig.add_trace(go.Bar(x=TAB2plot.index, y=TAB2plot[inst], name=inst,marker=style), row=2, col=1)
         
-    if settings.settings["Prognose"]==False:
+    if settings.settings["show_mean"]&(settings.settings["Prognose"]==False):
         
         # add mean
         fig.add_trace(go.Scatter(x=TAB1plot.index, y=TAB1plot.mean(axis=1), mode='lines', name="Durchschnitt",line=dict(color="black",dash="dash")), row=1, col=1)
@@ -169,7 +169,7 @@ def create_arbeitsmarkt(komponente,synopse,settings):
         
         fig.add_trace(go.Bar(x=TAB2.index, y=TAB2[inst], name=inst,marker=style), row=2, col=1)
         
-    if settings.settings["Prognose"]==False:
+    if settings.settings["show_mean"]&(settings.settings["Prognose"]==False):
         # add mean
         fig.add_trace(go.Scatter(x=TAB1.index, y=TAB1.mean(axis=1), mode='lines', name="Durchschnitt",line=dict(color="black",dash="dash")), row=1, col=1)
         # add mean
@@ -188,7 +188,7 @@ def create_arbeitsmarkt(komponente,synopse,settings):
     
     
     # add mean to tables (after plotting for recycling purposes) if specified
-    if settings.settings["show_mean"]:
+    if settings.settings["show_mean"]&(settings.settings["Prognose"]==False):
         TAB1["Ø"] = TAB1.mean(axis=1)
         TAB2["Ø"] = TAB2.mean(axis=1)
         TAB3["Ø"] = TAB3.mean(axis=1)
@@ -245,7 +245,7 @@ def create_bws(komponente,synopse,settings):
         
         fig.add_trace(go.Bar(x=TAB2plot.index, y=TAB2plot[inst], name=inst,marker=style), row=2, col=1)
         
-    if settings.settings["Prognose"]==False:
+    if settings.settings["show_mean"]&(settings.settings["Prognose"]==False):
         # add mean
         fig.add_trace(go.Scatter(x=TAB1plot.index, y=TAB1plot.mean(axis=1), mode='lines', name="Durchschnitt",line=dict(color="black",dash="dash")), row=1, col=1)
         # add mean
@@ -267,7 +267,7 @@ def create_bws(komponente,synopse,settings):
     plotly_html_div = fig.to_html(full_html=False, include_plotlyjs='cdn')
 
     # add avg to TAB2 (after plotting for recycling purposes)
-    if settings.settings["show_mean"]:
+    if settings.settings["show_mean"]&(settings.settings["Prognose"]==False):
         TAB1["Ø"] = TAB1.mean(axis=1)
         TAB2["Ø"] = TAB2.mean(axis=1)
 
@@ -332,7 +332,7 @@ def create_mittelfrist(komponente,synopse,settings):
         
         fig.add_trace(go.Bar(x=TAB2plot.index, y=TAB2plot[inst], name=inst,marker=style), row=2, col=1)
         
-    if settings.settings["Prognose"]==False:
+    if settings.settings["show_mean"]&(settings.settings["Prognose"]==False):
         # add mean
         fig.add_trace(go.Scatter(x=TAB1plot.index, y=TAB1plot.mean(axis=1), mode='lines', name="Durchschnitt",line=dict(color="black",dash="dash")), row=1, col=1)
         # add mean
@@ -354,7 +354,7 @@ def create_mittelfrist(komponente,synopse,settings):
     # change index to year
     TAB1.index,TAB2.index = TAB1.index.year,TAB2.index.year
     # get MIttelwert
-    if settings.settings["show_mean"]:
+    if settings.settings["show_mean"]&(settings.settings["Prognose"]==False):
         TAB1["Ø"] = TAB1.mean(axis=1)
         TAB2["Ø"] = TAB2.mean(axis=1)
 
@@ -433,7 +433,7 @@ def create_annahmen_new(komponente,synopse,settings):
     fig1 = go.Figure()
 
     # Add traces
-    for inst in TAB1plot.columns[:-1]:
+    for inst in [e for e in TAB1plot.columns if e!= "Ø"]:
         
         if inst == "GD":
             style = settings.settings["prognose_style_line"]
@@ -452,7 +452,7 @@ def create_annahmen_new(komponente,synopse,settings):
                 x1=TAB1plot.index[-1]+pd.Timedelta("45D"),
                 fillcolor="lightgray", opacity=0.5, layer="below", line_width=0,)
         
-    if settings.settings["Prognose"]==False:
+    if settings.settings["show_mean"]&(settings.settings["Prognose"]==False):
         # add mean
         fig1.add_trace(go.Scatter(x=TAB1plot.index, y=TAB1plot.mean(axis=1), mode='lines', name="Durchschnitt",line=dict(color="black",dash="dash")))
         
@@ -468,55 +468,6 @@ def create_annahmen_new(komponente,synopse,settings):
     
     
     return [komponente.title, plotly_html_div1, html_table]
-
-def create_annahmen(komponente,synopse,settings):
-    
-    colors = settings.settings["colors"]
-    tickformat = settings.settings["tickformat"]
-    window_kf = settings.settings["window_kf"] 
-    start_fc = pd.to_datetime(settings.settings["fc_start"])
-    
-    dat1 = synopse.get_series(komponente.series1)[0]
-    TAB1plot = dat1.loc[window_kf,:]
-
-    # fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.1,
-                        # subplot_titles=("<i>"+komponente.title1,"<i>"+komponente.title2))
-    fig1 = go.Figure()
-
-    # Add traces
-    for inst in TAB1plot.columns:
-        
-        if inst == "GD":
-            style = settings.settings["prognose_style_line"]
-        else:
-            style = dict(color=colors[inst])
-            
-        fig1.add_trace(go.Scatter(x=TAB1plot.index, y=TAB1plot[inst], mode='lines', name=inst,line=style,showlegend=True))
-        
-    if settings.settings["Prognose"]==False:
-        # add mean
-        fig1.add_trace(go.Scatter(x=TAB1plot.index, y=TAB1plot.mean(axis=1), mode='lines', name="Durchschnitt",line=dict(color="black",dash="dash")))
-    
-    if komponente.series1[0].lower() == "a":
-        fig1.add_vrect(x0=start_fc-pd.Timedelta("165D"),
-                x1=TAB1plot.index[-1]+pd.Timedelta("50D"),
-                fillcolor="lightgray", opacity=0.5, layer="below", line_width=0,)
-    else:
-        fig1.add_vrect(x0=start_fc-pd.Timedelta("15D"),
-                x1=TAB1plot.index[-1]+pd.Timedelta("45D"),
-                fillcolor="lightgray", opacity=0.5, layer="below", line_width=0,)
-        
-    # Update xaxis properties
-    fig1.update_layout(plot.layout, 
-                       title="<b>"+komponente.title1,
-                    barmode="group",
-                    yaxis=dict(title=komponente.axis_title1,tickformat=tickformat), 
-                    height=400)
-    
-    # Save Plotly figure as HTML div
-    plotly_html_div1 = fig1.to_html(full_html=False, include_plotlyjs='cdn')
-    
-    return [komponente.title, plotly_html_div1]
 
 def get_halfyear_single(settings,synopse,quarterly_series,annual_series,change,window_hj):
     
@@ -606,6 +557,7 @@ def get_halfyear(settings,synopse,komponente,window_hj):
 
 
     return combined
+
 def create_halbjahre(komponente,synopse,settings):
     
     

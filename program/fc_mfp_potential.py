@@ -93,7 +93,7 @@ rendered_html = template.render(
 )
 
 # Save the output to an HTML file
-with open(str(BASE_DIR)+f"/synopse/{program}.html", 'w') as f:
+with open(str(BASE_DIR)+f"/_reports_outputs/mfp/{program}.html", 'w') as f:
     f.write(rendered_html)
     
 logger.success("HTML slide with multiple slides has been generated.")
@@ -101,8 +101,8 @@ logger.success("HTML slide with multiple slides has been generated.")
 #%%
 
 # Run the async function
-input_path = str(BASE_DIR)+f"/synopse/{program}.html"
-output_path = str(BASE_DIR)+f"/synopse/{program}.pdf"
+input_path = str(BASE_DIR)+f"/_reports_outputs/mfp/{program}.html"
+output_path = str(BASE_DIR)+f"/_reports_outputs/mfp/{program}.pdf"
 
 try:
     asyncio.run(html_utils.html_to_pdf(
