@@ -4,7 +4,7 @@ call C:\ProgramData\Anaconda3\Scripts\activate.bat
 :: first activate general conda "console"
 call conda activate GDSynopse
 :: activate specific environment
-call python program/update_settings.py disable
+call python program/update_settings.py enable
 call python program/clean.py
 call python program/kurzfrist.py
 call python program/bws.py
