@@ -18,8 +18,10 @@
 (base) C:\PFAD\ZU\PROJEKT\>conda env create -f GDSynopse.yml
 ```
 ... wait until fully installed (can take a while)
+
 4. Download the chrome launcher (chrlauncher-win64-stable-codecs-sync)
 - in case of doubt, reach out to repo owner and ask 
+- must be installed and put in program/utils/
 
 ## Manual / Usage
 
