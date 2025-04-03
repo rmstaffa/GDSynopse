@@ -260,9 +260,9 @@ def transformA(df):
     # tatsächlich vs. potenziell
     data_yrly["age_ewpot"] = data_yrly["age_lpeu_c_x"] / data_yrly["age_hoursteu_c_x"] * 1000
     data_yrly["age_aztat"] = data_yrly["age_av_x_x"] / data_yrly["age_ew_x_x"] * 1000
+    data_yrly = data_yrly.copy() # consolidate the fragmented data (avoids the warning)
     data_yrly["age_lppot"] = data_yrly["age_lpeu_c_x"] 
 
-    
     return data_yrly, mnemonic_map
 
 def load_data(path,cls):
