@@ -53,7 +53,13 @@ There are three main use cases:
 > Produce Comparison Sheet for Medium Term Forecast
 
 - Associated batch file: 'mfp_erstellen.bat'
-- Put file MFP_input.xlsx in folder _data_inputs/mfp 
+- Put file MFP_input.xlsx in folder _data_inputs/mfp (possibly change the name of the file in 'setup/setting.py')
+
+```
+settings_mfp = {
+    "data_path_mittelfrist":str(BASE_DIR / "_data_inputs") + "/mfp/MFP_Input_3RR.xlsx", # Pfad zur Mittelfristprognose Excel
+```
+
 - double-click on batch file and wait until program finishes
 - results are available in _reports_outputs/mfp
 
