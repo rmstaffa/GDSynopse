@@ -56,7 +56,8 @@ def transformA(df):
     # -- yearly additional computations
     
     # add Stundenproduktivität
-    data_yrly["age_prodh"] = data_yrly["age_bip_v_x"] / data_yrly["age_av_x_x"] * 1000
+    data_yrly["age_prodh"] = data_yrly["age_bip_v_x"] / data_yrly["age_av_x_x"] * 1000_000
+    data_yrly["age_prodheu"] = data_yrly["age_ypoteu_c_x"] / data_yrly["age_lpeu_c_x"] * 1_000_000
 
     # Arbeitszeit je Erwerbstätigen
     data_yrly["age_wtempl"] = data_yrly["age_av_x_x"] / data_yrly["age_ew_x_x"] * 1000
@@ -64,11 +65,14 @@ def transformA(df):
     # ToT
     data_yrly["age_tot"] = data_yrly["age_av_x_x"] / data_yrly["age_ew_x_x"] * 1000
 
-    # add Output gap
+    # add Output gap 
+    # (EU)
+    data_yrly["age_ygapeu"] = (data_yrly["age_bip_v_x"] - data_yrly["age_ypoteu_c_x"])/data_yrly["age_ypoteu_c_x"] * 100
+    # (MODEM)
     data_yrly["age_ygap"] = (data_yrly["age_bip_v_x"] - data_yrly["age_ypot_c_x"])/data_yrly["age_ypot_c_x"] * 100
 
     # add NAWRU
-    data_yrly["age_nawru"] = 100 - data_yrly["age_1_nairu_c_x"]
+    data_yrly["age_nawrueu"] = 100 - data_yrly["age_1_nairueu_c_x"]
 
     # Preisniveau 2015 _c_x
     comp = ["ge_cp","ge_cst","ge_iau","ge_ib","ge_iv","ge_ex","ge_im","ge_bip"]
@@ -254,9 +258,9 @@ def transformA(df):
     data_yrly["age_blohnq"] = data_yrly["age_lohnq"] * data_yrly["age_av_x_x"] / data_yrly["age_ava_x_x"]
 
     # tatsächlich vs. potenziell
-    data_yrly["age_ewpot"] = data_yrly["age_lp_c_x"] / data_yrly["age_hourst_c_x"]
+    data_yrly["age_ewpot"] = data_yrly["age_lpeu_c_x"] / data_yrly["age_hoursteu_c_x"] * 1000
     data_yrly["age_aztat"] = data_yrly["age_av_x_x"] / data_yrly["age_ew_x_x"] * 1000
-    data_yrly["age_lppot"] = data_yrly["age_lp_c_x"] / 1000
+    data_yrly["age_lppot"] = data_yrly["age_lpeu_c_x"] 
 
     
     return data_yrly, mnemonic_map
@@ -272,15 +276,17 @@ def load_data(path,cls):
     # create dataframes
     for gd in mfp.keys():
         
-        yrly,mnemonic_map = transformA(mfp[gd])
+        if gd in ["z","y"]:
         
-        data_dict = OrderedDict(
-            {"A":yrly}
-        )
-        
-        setattr(cls,
-                gd,
-                data_dict)
+            yrly,mnemonic_map = transformA(mfp[gd])
+            
+            data_dict = OrderedDict(
+                {"A":yrly}
+            )
+            
+            setattr(cls,
+                    gd,
+                    data_dict)
         
     setattr(cls,"mnemonic_map",mnemonic_map)
     setattr(cls,"Prognosen",list(mfp.keys()))
@@ -326,14 +332,15 @@ class SynopseData:
         if name[0] == "a": 
             freq = "A"
         else:
-            freq = "Q"
+            freq = "A"
 
         container = []
-        for inst in self.Prognosen:
+        for inst in ["z","y"]:
+            
             container.append(getattr(self,inst)[freq].loc[:,name])
             
         df = pd.concat(container,axis=1)
-        df.columns = self.Prognosen
+        df.columns = ["z","y"]
         
         try:
             return df, self.mnemonic_map[name.upper()]
