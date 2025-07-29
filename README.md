@@ -53,7 +53,7 @@ There are three main use cases:
 > Produce Comparison Sheet for Medium Term Forecast
 
 - Associated batch file: 'mfp_erstellen.bat'
-- Put file MFP_input.xlsx in folder _data_inputs/mfp (possibly change the name of the file in 'setup/setting.py')
+- Put file MFP_input.xlsx in folder _data_inputs/mfp (possibly change the name of the file in 'setup/setting.py' and don't forget to **save** the file)
 
 ```
 settings_mfp = {
