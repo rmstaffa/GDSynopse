@@ -319,7 +319,7 @@ def load_data(path,cls):
     load data from excel to data class
     '''
 
-    pat = re.compile(r"([A-Za-z0-9]+)\.xlsx$")
+    pat = re.compile(r"([A-Za-z0-9 _]+)\.xlsx$")
     inst_paths = glob.glob(path+"*.xlsx")
 
     # store institute names
