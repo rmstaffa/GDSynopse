@@ -301,7 +301,7 @@ def create_mittelfrist(komponente,synopse,settings):
     else:
         df_change = df.pct_change(fill_method=None)*100
 
-    TAB1,TAB2 = df.loc[window_kf,:],df_change.loc[window_kf,:]
+    TAB1,TAB2 = df.loc[window_mf,:],df_change.loc[window_mf,:]
     TAB1plot,TAB2plot = TAB1.copy(),TAB2.copy()
     # change index to year
     TAB1plot.index,TAB2plot.index = TAB1plot.index.year,TAB2plot.index.year 
