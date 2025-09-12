@@ -313,7 +313,7 @@ def transformA(df):
     data_yrly["age_aztat"] = data_yrly["age_av_x_x"] / data_yrly["age_ew_x_x"] * 1000
     data_yrly["age_lppot"] = data_yrly["age_lp_c_x"] / 1000
     
-    data_yrly["age_ewp_c_x"] = data_yrly["age_popw_c_x"]*data_yrly["age_parts_c_x"]
+    data_yrly["age_ewp_c_x"] = data_yrly["age_popw_c_x"]*data_yrly["age_parts_c_x"] / 100
 
     
     return data_yrly, mnemonic_map

@@ -11,7 +11,7 @@ mittelfrist = [
         annual_series = "AGE_POPW_C_X"
     ),
     Mittelfrist(
-        title = "Produktionspotenzial",
+        title = "Produktionspotenzial (MODEM)",
         yaxis1 = "in Mrd. Euro",
         yaxis2 = "Veränderung rel. VJ in %",
         annual_series = "AGE_YPOT_C_X"
@@ -23,7 +23,7 @@ mittelfrist = [
         annual_series = "AGE_BIP_V_X"
     ),
     Mittelfrist(
-        title = "Produktionslücke",
+        title = "Produktionslücke (MODEM)",
         yaxis1 = "in % des Potenzials",
         yaxis2 = "in Mrd. Euro",
         annual_series = "AGE_YGAP"
@@ -45,6 +45,12 @@ mittelfrist = [
         yaxis1 = "in %",
         yaxis2 = "Veränderung re. VJ in PP",
         annual_series = "AGE_PARTS_C_X"
+    ),
+    Mittelfrist(
+        title = "Erwerbspersonen",
+        yaxis1 = "1000 Personen",
+        yaxis2 = "Veränderung rel. VJ in %",
+        annual_series = "AGE_EWP_C_X"
     ),
     Mittelfrist(
         title = "Totale Faktorproduktivität (TFP)",

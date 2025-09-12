@@ -263,7 +263,7 @@ def transformA(df):
     data_yrly = data_yrly.copy() # consolidate the fragmented data (avoids the warning)
     data_yrly["age_lppot"] = data_yrly["age_lpeu_c_x"] 
     
-    data_yrly["age_ewp_c_x"] = data_yrly["age_popw_c_x"]*data_yrly["age_parts_c_x"]
+    data_yrly["age_ewp_c_x"] = data_yrly["age_popw_c_x"]*data_yrly["age_parts_c_x"] / 100
 
     return data_yrly, mnemonic_map
 
