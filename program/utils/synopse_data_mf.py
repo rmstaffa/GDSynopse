@@ -56,7 +56,7 @@ def transformA(df):
     # -- yearly additional computations
     
     # add Stundenproduktivität
-    data_yrly["age_prodh"] = data_yrly["age_bip_v_x"] / data_yrly["age_av_x_x"] * 1000_000
+    data_yrly["age_prodh"] = data_yrly["age_bip_v_x"] / data_yrly["age_av_x_x"]  * 1000_000
     data_yrly["age_prodheu"] = data_yrly["age_ypoteu_c_x"] / data_yrly["age_lpeu_c_x"] * 1_000_000
 
     # Arbeitszeit je Erwerbstätigen
@@ -79,7 +79,7 @@ def transformA(df):
     for c in comp:
         
         if c == "ge_iv":
-            data_yrly["a"+c+"_p15"] = data_yrly["a"+"ge_ni_c_x"] / data_yrly["a"+c+"_v_x"]
+            data_yrly["a"+c+"_p15"] = data_yrly["a"+"ge_iv_c_x"] / data_yrly["a"+c+"_v_x"]
         else:
             data_yrly["a"+c+"_p15"] = data_yrly["a"+c+"_c_x"] / data_yrly["a"+c+"_v_x"]
 
@@ -215,7 +215,7 @@ def transformA(df):
     for comp in lst:
         
         if comp == "ge_iv":
-            data_yrly["a"+comp+"_wb"] = data_yrly["a"+comp+"_v_x"].pct_change(fill_method=None) * (data_yrly["a"+"ge_ni_c_x"] / data_yrly["age_bip_c_x"]).shift(1)
+            data_yrly["a"+comp+"_wb"] = data_yrly["a"+comp+"_v_x"].pct_change(fill_method=None) * (data_yrly["a"+"ge_iv_c_x"] / data_yrly["age_bip_c_x"]).shift(1)
         else:
             data_yrly["a"+comp+"_wb"] = data_yrly["a"+comp+"_v_x"].pct_change(fill_method=None) * (data_yrly["a"+comp+"_c_x"] / data_yrly["age_bip_c_x"]).shift(1)
         
@@ -248,7 +248,7 @@ def transformA(df):
     data_yrly["age_qib"] = data_yrly["age_ib_c_x"] / data_yrly["age_bip_c_x"]
     data_yrly["age_qex"] = data_yrly["age_ex_c_x"] / data_yrly["age_bip_c_x"]
     data_yrly["age_qim"] = data_yrly["age_im_c_x"] / data_yrly["age_bip_c_x"]
-    data_yrly["age_qni"] = data_yrly["age_ni_c_x"] / data_yrly["age_bip_c_x"]
+    data_yrly["age_qni"] = data_yrly["age_iv_c_x"] / data_yrly["age_bip_c_x"]
     data_yrly["age_qab"] = data_yrly["age_exim_c_x"] / data_yrly["age_bip_c_x"]
     data_yrly["age_qil"] = data_yrly["age_il_c_x"] / data_yrly["age_bip_c_x"]
 
@@ -262,6 +262,8 @@ def transformA(df):
     data_yrly["age_aztat"] = data_yrly["age_av_x_x"] / data_yrly["age_ew_x_x"] * 1000
     data_yrly = data_yrly.copy() # consolidate the fragmented data (avoids the warning)
     data_yrly["age_lppot"] = data_yrly["age_lpeu_c_x"] 
+    
+    data_yrly["age_ewp_c_x"] = data_yrly["age_popw_c_x"]*data_yrly["age_parts_c_x"]
 
     return data_yrly, mnemonic_map
 
