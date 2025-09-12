@@ -2,6 +2,7 @@
 
 import sys
 import io
+from loguru import logger
 
 if hasattr(sys.stdout, 'buffer'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -19,7 +20,6 @@ from pathlib import Path
 
 # third party
 from jinja2 import Environment, FileSystemLoader
-from loguru import logger
 
 # custom packages
 from utils.synopse_data import SynopseData

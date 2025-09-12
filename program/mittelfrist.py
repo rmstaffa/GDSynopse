@@ -3,10 +3,6 @@
 import sys
 import io
 
-# Set UTF-8 as the default encoding for standard input, output, and error
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
-
 # core packages
 import pandas as pd
 import datetime as dt
@@ -18,6 +14,12 @@ from pathlib import Path
 # third party
 from jinja2 import Environment, FileSystemLoader
 from loguru import logger
+
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+else:
+    logger.warning("Warning: Running in an environment without sys.stdout.buffer. Skipping encoding override.")
 
 # custom packages
 from utils.synopse_data import SynopseData
