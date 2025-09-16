@@ -56,8 +56,11 @@ def transformA(df):
     # -- yearly additional computations
     
     # add Stundenproduktivität
+    # tatsächlich / Ursprung
     data_yrly["age_prodh"] = data_yrly["age_bip_v_x"] / data_yrly["age_av_x_x"]  * 1000_000
+    # potenziell
     data_yrly["age_prodheu"] = data_yrly["age_ypoteu_c_x"] / data_yrly["age_lpeu_c_x"] * 1_000_000
+    data_yrly["age_prodhmod"] = data_yrly["age_ypot_c_x"] / data_yrly["age_lp_c_x"] * 1_000_000
 
     # Arbeitszeit je Erwerbstätigen
     data_yrly["age_wtempl"] = data_yrly["age_av_x_x"] / data_yrly["age_ew_x_x"] * 1000
@@ -69,10 +72,11 @@ def transformA(df):
     # (EU)
     data_yrly["age_ygapeu"] = (data_yrly["age_bip_v_x"] - data_yrly["age_ypoteu_c_x"])/data_yrly["age_ypoteu_c_x"] * 100
     # (MODEM)
-    data_yrly["age_ygap"] = (data_yrly["age_bip_v_x"] - data_yrly["age_ypot_c_x"])/data_yrly["age_ypot_c_x"] * 100
+    data_yrly["age_ygap"] = (data_yrly["age_bip_v_c"] - data_yrly["age_ypot_c_x"])/data_yrly["age_ypot_c_x"] * 100
 
     # add NAWRU
     data_yrly["age_nawrueu"] = 100 - data_yrly["age_1_nairueu_c_x"]
+    data_yrly["age_nawrumod"] = 100 - data_yrly["age_1_nairu_c_x"] # SELO
 
     # Preisniveau 2015 _c_x
     comp = ["ge_cp","ge_cst","ge_iau","ge_ib","ge_iv","ge_ex","ge_im","ge_bip"]
@@ -257,13 +261,19 @@ def transformA(df):
     # bereinigte Lohnquote
     data_yrly["age_blohnq"] = data_yrly["age_lohnq"] * data_yrly["age_av_x_x"] / data_yrly["age_ava_x_x"]
 
-    # tatsächlich vs. potenziell
-    data_yrly["age_ewpot"] = data_yrly["age_lpeu_c_x"] / data_yrly["age_hoursteu_c_x"] * 1000
-    data_yrly["age_aztat"] = data_yrly["age_av_x_x"] / data_yrly["age_ew_x_x"] * 1000
     data_yrly = data_yrly.copy() # consolidate the fragmented data (avoids the warning)
-    data_yrly["age_lppot"] = data_yrly["age_lpeu_c_x"] 
-    
+
+    # tatsächlich vs. potenziell
+    data_yrly["age_ewpoteu"] = data_yrly["age_lpeu_c_x"] / data_yrly["age_hoursteu_c_x"] * 1000
+    data_yrly["age_ewpot"] = data_yrly["age_lp_c_x"] / data_yrly["age_hourst_c_x"] * 1000
+    data_yrly["age_aztateu"] = data_yrly["age_av_x_x"] / data_yrly["age_ew_x_x"] * 1000
+    data_yrly["age_aztat"] = data_yrly["age_av_x_c"] / data_yrly["age_ew_x_c"] * 1000
+    data_yrly["age_lppot"] = data_yrly["age_lp_c_x"] 
+    data_yrly["age_lppoteu"] = data_yrly["age_lpeu_c_x"] 
     data_yrly["age_ewp_c_x"] = data_yrly["age_popw_c_x"]*data_yrly["age_parts_c_x"] / 100
+    
+    data_yrly = data_yrly.copy() # consolidate the fragmented data (avoids the warning)
+    
 
     return data_yrly, mnemonic_map
 
