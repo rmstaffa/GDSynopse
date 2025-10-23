@@ -298,6 +298,10 @@ def create_mittelfrist(komponente,synopse,settings):
         df_change = df.diff()
     elif komponente.title == "Totale Faktorproduktivität (TFP)": # special case handling
         df_change = df.apply(lambda x: np.exp(x)/np.exp(x.shift(1))-1, axis=0)*100
+    elif komponente.title == "Produktionslücke (MODEM)": # special case handling
+        df_change = df.pct_change(fill_method=None)*100
+        for col in df_change.columns:
+            df_change[col] = np.nan
     else:
         df_change = df.pct_change(fill_method=None)*100
 
