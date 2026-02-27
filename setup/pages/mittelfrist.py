@@ -58,5 +58,11 @@ mittelfrist = [
         yaxis2 = "Vorjahresvergleich in %",
         annual_series = "AGE_SRT_C_X"
     ),
+    Mittelfrist(
+        title = "Terms of Trade",
+        yaxis1 = "Index",
+        yaxis2 = "Veränderung rel. VJ in %",
+        annual_series = "AGE_TERMTRADE"
+    ),
 ] 
 

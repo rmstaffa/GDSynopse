@@ -293,6 +293,9 @@ def create_mittelfrist(komponente,synopse,settings):
     start_fc = pd.to_datetime(settings.settings["fc_start"])
 
     df,name = synopse.get_series(komponente.annual_series)
+    
+    if komponente.annual_series == "AGE_TERMTRADE":
+        df = df * 100
 
     if "PP" in komponente.yaxis2:
         df_change = df.diff()
