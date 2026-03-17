@@ -68,7 +68,7 @@ def transformQ(df):
     # add rate for Tarifentwicklung (Annahmen)
     data_qrtly["qge_tlgmam_r"] = data_qrtly["qge_tlgmam"].pct_change(periods=4,fill_method=None) * 100
     
-    data_qrtly["qge_pcpl_r"] = data_qrtly["qge_pcpl_r"].pct_change(periods=4,fill_method=None) * 100
+    data_qrtly["qge_pcpl_r"] = data_qrtly["qge_pcpl_x"].pct_change(periods=4,fill_method=None) * 100
     
     return data_qrtly, mnemonic_map
 
@@ -290,6 +290,7 @@ def transformA(df):
     data_yrly["age_pib"] = data_yrly["age_ib_c_x"] / data_yrly["age_ib_v_x"]*100
     data_yrly["age_pex"] = data_yrly["age_ex_c_x"] / data_yrly["age_ex_v_x"]*100
     data_yrly["age_pim"] = data_yrly["age_im_c_x"] / data_yrly["age_im_v_x"]*100
+    data_yrly["age_pcpl_r"] = data_yrly["age_pcpl_x"].pct_change(periods=4,fill_method=None) * 100
     # Arbeitszeit
     data_yrly["age_mfpazeit"] = data_yrly["age_av_x_x"] / data_yrly["age_ew_x_x"]*1000
     # Trms of Trade
